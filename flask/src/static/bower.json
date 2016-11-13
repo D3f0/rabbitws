@@ -1,0 +1,24 @@
+{
+  "name": "flask_mqtt_ws_svg",
+  "authors": [
+    "Nahuel Defossé <nahuel.defosse@gmail.com>"
+  ],
+  "description": "Flask forntend libs for MQTT and SVG stuff",
+  "main": "",
+  "license": "MIT",
+  "homepage": "",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "jQuery": "^3.1.1",
+    "web-mqtt-client": "^1.2.1",
+    "paho.mqtt.js": "^1.0.2",
+    "d3": "^4.2.8"
+  }
+}

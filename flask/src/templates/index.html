@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+
+
+{% block content %}
+
+<h3>Conexión a conector MQTT de RabbitMQ sobre WebSocket</h3>
+<span id="status">Conectando...</span>
+<pre>
+
+</pre>
+{% endblock content %}
+
+{% block scripts %}
+    <script type="text/javascript"
+    src="{{ url_for('static', filename='bower/jQuery/dist/jquery.js') }}"></script>
+    <script type="text/javascript"
+    src="{{ url_for('static', filename='bower/jQuery/dist/jquery.js') }}"></script>
+    <script type="text/javascript"
+    src="{{ url_for('static', filename='bower/paho.mqtt.js/src/mqttws31.js') }}"></script>
+
+    <script type="text/javascript">
+
+      $(function () {
+          var $status = $('#status');
+          var port = Number(location.port || 80);
+          console.info(port);
+          client = new Paho.MQTT.Client(
+            location.hostname,
+            Number(location.port || 80),
+            "web_client_" + (Math.floor(Math.random() * 5000) + 1)
+          );
+
+          console.log("Connecting to: ", location.hostname, Number(location.port), "clientId");
+          client.onConnectionLost = onConnectionLost;
+          client.onMessageArrived = onMessageArrived;
+
+          client.connect({
+            onSuccess: onConnect
+          });
+
+          function onConnect() {
+            // Once a connection has been made, make a subscription and send a message.
+            console.log("onConnect");
+            $status.text("Conectado");
+            client.subscribe("test");
+
+            message = new Paho.MQTT.Message("this is payload");
+            message.destinationName = "test";
+            client.send(message);
+            // window.CLIENT = client;
+          };
+
+          function onConnectionLost(responseObject) {
+            $status.text("Desconectado");
+            if (responseObject.errorCode !== 0) {
+              console.log("onConnectionLost:"+responseObject.errorMessage);
+
+              window.setTimeout(function () {
+                console.log("Reconnecting...");
+                client.connect({
+                  onSuccess: onConnect
+                });
+              }, 1000);
+            }
+
+          };
+
+          function onMessageArrived(message) {
+            console.log("onMessageArrived:"+message.payloadString);
+          };
+      });
+    </script>
+
+{% endblock scripts %}
