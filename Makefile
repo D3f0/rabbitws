@@ -9,6 +9,20 @@ COPMOSE_ARGS = $(COMPOSE_FILE) -p $(PROJECT_NAME)
 
 COMPOSE = docker-compose $(COPMOSE_ARGS)
 
+ifeq ($(OS),Windows_NT)
+    OPEN = start
+else
+    UNAME_S := $(shell uname -s)
+    ifeq ($(UNAME_S),Linux)
+        OPEN = xdg-open
+    endif
+    ifeq ($(UNAME_S),Darwin)
+        OPEN = open
+    endif
+endif
+
+
+
 up:
 	$(COMPOSE) up --build -d
 
@@ -47,7 +61,8 @@ logs_flask:
 
 open: up
 	@# Flask port
-	open http://localhost:4000
+	$(OPEN) http://localhost
+	$(OPEN) http://localhost/jupyter
 
 watch:
 	echo "TODO!"
