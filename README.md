@@ -8,7 +8,12 @@ En el [`Makefile`](./Makefile) se definen las los siguientes targets:
 
 * **up** Crear los contenedores
 * **down** Destruir los contenedores
-* **open** Abrir el navegador
+* **open** Abrir el navegador,  depende de up
+
+# Vista desde Kitematic
+
+![Kitematic](docs/kite.png)
+
 
 # Posibles Problemas
 
