@@ -1,0 +1,13 @@
+version: "2"
+
+services:
+
+  flask:
+    volumes:
+      - "../flask/src/templates/:/home/user/src/templates"
+      - "../flask/src/static/:/home/user/src/static"
+  nginx:
+    ports:
+      - "8080:80"
+
+

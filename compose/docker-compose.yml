@@ -1,0 +1,51 @@
+version: "2"
+services:
+  # ----------------------------------------
+  # Broker
+  # ----------------------------------------
+
+  rabbit:
+    hostname: "rabbit"
+    build: ../rabbitmq
+    expose:
+      - "5672"
+    command: "rabbitmq-server"
+    ports:
+      # Interfase Administrativa
+      - "15672:15672"
+      # Puerto de MQTT/ws
+      - "15675:15675"
+      # MQTT
+      - "11883:1883"
+    restart: unless_stopped
+
+  # ----------------------------------------
+  # Aplicación Web
+  # ----------------------------------------
+
+  flask:
+    hostname: "flask"
+    build: ../flask
+    depends_on:
+      - rabbit
+    restart: unless_stopped
+  # ----------------------------------------
+  # Servidor frontera
+  # ----------------------------------------
+  #
+  #
+  # ----------------------------------------
+  nginx:
+    hostname: "nginx"
+    build: ../nginx
+    ports:
+      - "80:80"
+    depends_on:
+      - flask
+      - jupyter
+    restart: unless_stopped
+
+  jupyter:
+    build: ../jupyter
+    restart: unless_stopped
+
