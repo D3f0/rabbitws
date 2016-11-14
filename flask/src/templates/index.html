@@ -16,8 +16,16 @@
   <div class="container-fluid">
     <ul class="nav navbar-nav">
         <li class="active"><a href="#">MQTT Subscribe<span class="sr-only">(current)</span></a></li>
-        <li><a href="/jupyter/">Jupyter</a></li>
-        <li><a href="/rabbitmq/">RabbitMQ Admin</a></li>
+        <li>
+          <a href="/jupyter/"
+             target="_blank"
+             title="Entorno interactivo con ejenplos">Jupyter</a>
+        </li>
+        <li>
+          <a href="/rabbitmq/"
+             target="_blank"
+             title="Administración de MQTT">RabbitMQ Admin</a>
+        </li>
   </div>
 </nav>
 {% endblock navbar %}
@@ -52,17 +60,18 @@
             $log.text($log.text()+txt+'\n');
 
           }
-          window.log = log;
+
+          var clientId = "web_client_" + (Math.floor(Math.random() * 5000) + 1);
 
           var port = Number(location.port || 80);
           console.info(port);
           client = new Paho.MQTT.Client(
             location.hostname,
             Number(location.port || 80),
-            "web_client_" + (Math.floor(Math.random() * 5000) + 1)
+            clientId
           );
 
-          log("Connecting to: ", location.hostname, Number(location.port), "clientId");
+          log("Connecting to: ", location.hostname, Number(location.port), clientId);
           client.onConnectionLost = onConnectionLost;
           client.onMessageArrived = onMessageArrived;
 
@@ -78,7 +87,7 @@
             $status.text("Conectado");
             client.subscribe("test");
 
-            message = new Paho.MQTT.Message("this is payload");
+            message = new Paho.MQTT.Message("ECHO for TEST TOPIC");
             message.destinationName = "test";
             client.send(message);
             // window.CLIENT = client;
