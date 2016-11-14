@@ -12,6 +12,8 @@ RUN apk --update add git nodejs && rm -rf /var/cache/apk/* && \
 
 RUN adduser -D user
 WORKDIR /home/user/src
+
+ENV PATH "/home/user/venv/bin/:$PATH"
 USER user
 
 RUN virtualenv /home/user/venv
@@ -43,6 +45,4 @@ RUN chown -R user:user /home/user/src
 
 USER user
 
-CMD ["/home/user/venv/bin/python", "app/webapp.py"]
-
-
+ENTRYPOINT ["python", "app/webapp.py"]
