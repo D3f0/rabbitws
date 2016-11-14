@@ -33,12 +33,17 @@
     <script type="text/javascript">
 
       $(function () {
+          /**
+           * https://www.eclipse.org/paho/files/jsdoc/symbols/Paho.MQTT.Client.html#connect
+           */
 
           var $status = $('#status');
           var $log = $('#log_area');
+          var connected = false;
 
           function log(_) {
-            var args = [];
+            var now = new Date();
+            var args = [now.toLocaleString()];
             for (var i=0; i<arguments.length; i++) {
               args.push(arguments[i]);
             }
@@ -87,7 +92,10 @@
               window.setTimeout(function () {
                 log("Reconnecting...");
                 client.connect({
-                  onSuccess: onConnect
+                  onSuccess: onConnect,
+                  onFailure: onConnectionLost,
+                  userName: "test",
+                  password: "secret"
                 });
               }, 1000);
             }
