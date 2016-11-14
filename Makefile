@@ -22,9 +22,12 @@ else
 endif
 
 
-
 up:
 	$(COMPOSE) up --build -d
+
+custom:
+   @echo $(COMPOSE)
+
 
 down:
 	$(COMPOSE) $@
