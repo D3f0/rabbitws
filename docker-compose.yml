@@ -6,7 +6,7 @@ services:
 
   rabbit:
     hostname: "rabbit"
-    build: rabbitmq
+    build: services/rabbit
     expose:
       - "5672"
     command: "rabbitmq-server"
@@ -21,17 +21,17 @@ services:
 
   hivemq_client:
     hostname: hivemq_client
-    build: hivemq_client
-    ports:
-      - "1234:80"
+    build: services/hivemq_client
+    expose:
+      - 80
 
   # ----------------------------------------
   # Aplicación Web
   # ----------------------------------------
 
   flask:
+    build: services/flask
     hostname: "flask"
-    build: flask
     depends_on:
       - rabbit
     restart: unless_stopped
@@ -44,8 +44,8 @@ services:
   #
   # ----------------------------------------
   nginx:
+    build: services/nginx
     hostname: "nginx"
-    build: nginx
     ports:
       - "80:80"
     depends_on:
@@ -54,6 +54,6 @@ services:
     restart: unless_stopped
 
   jupyter:
-    build: jupyter
+    build: services/jupyter
     restart: unless_stopped
 
