@@ -1,0 +1,28 @@
+{
+  "name": "web-mqtt-client",
+  "description": "A better MQTT API for the browser",
+  "main": "mqtt-client.js",
+  "authors": [
+    "Patrik Johnson <patrik@zebros.fi>"
+  ],
+  "license": "ISC",
+  "keywords": [
+    "mqtt",
+    "mqtt-client",
+    "paho"
+  ],
+  "moduleType": "globals",
+  "homepage": "https://github.com/orbitbot/web-mqtt-client",
+  "ignore": [
+    "config",
+    "coverage",
+    "demo",
+    "node_modules",
+    "paho",
+    "test",
+    ".gitignore",
+    "*.yml",
+    "*.json",
+    "mqtt-client.min.js"
+  ]
+}
