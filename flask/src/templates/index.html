@@ -5,7 +5,7 @@
 
 <h3>Conexión a conector MQTT de RabbitMQ sobre WebSocket</h3>
 <span id="status">Conectando...</span>
-<pre>
+<pre id="log_area" style="height: 200px; border: 1px solid #dec; overflow-y: scroll;">
 
 </pre>
 {% endblock content %}
@@ -21,7 +21,22 @@
     <script type="text/javascript">
 
       $(function () {
+
           var $status = $('#status');
+          var $log = $('#log_area');
+
+          function log(_) {
+            var args = [];
+            for (var i=0; i<arguments.length; i++) {
+              args.push(arguments[i]);
+            }
+            var txt = args.join(' ');
+            console.log(arguments);
+            $log.text($log.text()+txt+'\n');
+
+          }
+          window.log = log;
+
           var port = Number(location.port || 80);
           console.info(port);
           client = new Paho.MQTT.Client(
@@ -30,7 +45,7 @@
             "web_client_" + (Math.floor(Math.random() * 5000) + 1)
           );
 
-          console.log("Connecting to: ", location.hostname, Number(location.port), "clientId");
+          log("Connecting to: ", location.hostname, Number(location.port), "clientId");
           client.onConnectionLost = onConnectionLost;
           client.onMessageArrived = onMessageArrived;
 
@@ -42,7 +57,7 @@
 
           function onConnect() {
             // Once a connection has been made, make a subscription and send a message.
-            console.log("onConnect");
+            log("onConnect");
             $status.text("Conectado");
             client.subscribe("test");
 
@@ -55,10 +70,10 @@
           function onConnectionLost(responseObject) {
             $status.text("Desconectado");
             if (responseObject.errorCode !== 0) {
-              console.log("onConnectionLost:"+responseObject.errorMessage);
+              log("onConnectionLost:"+responseObject.errorMessage);
 
               window.setTimeout(function () {
-                console.log("Reconnecting...");
+                log("Reconnecting...");
                 client.connect({
                   onSuccess: onConnect
                 });
@@ -68,7 +83,7 @@
           };
 
           function onMessageArrived(message) {
-            console.log("onMessageArrived:"+message.payloadString);
+            log("onMessageArrived:"+message.payloadString);
           };
       });
     </script>
