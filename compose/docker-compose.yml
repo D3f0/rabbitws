@@ -29,6 +29,8 @@ services:
     depends_on:
       - rabbit
     restart: unless_stopped
+    # env_file:
+    #   - ./docker.env
   # ----------------------------------------
   # Servidor frontera
   # ----------------------------------------
