@@ -27,8 +27,9 @@ def auth_user():
     '''
     https://github.com/rabbitmq/rabbitmq-auth-backend-http#what-must-my-web-server-do
     '''
-    print 'user'
-    return 'allow'
+    if request.form.get('username') == 'admin':
+        return 'allow administrator'
+    return 'allow management'
 
 
 @app.route('/auth/vhost', methods=['POST', 'GET'])
