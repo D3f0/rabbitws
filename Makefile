@@ -1,6 +1,6 @@
 # Makefile for building RabbitMQ/WS/MQTT
 
-BASE_COMPOSE = ./compose/docker-compose.yml
+BASE_COMPOSE = ./docker-compose.yml
 #OVERRIDE = -f ./compose/docker-compose.dev.yml
 COMPOSE_FILE = -f $(BASE_COMPOSE) $(OVERRIDE)
 
