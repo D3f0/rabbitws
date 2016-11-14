@@ -26,8 +26,8 @@ up:
 	$(COMPOSE) up --build -d
 
 custom:
-   @echo $(COMPOSE)
-
+	@>&2 echo $(COMPOSE)
+	@echo $(COMPOSE)
 
 down:
 	$(COMPOSE) $@
@@ -56,19 +56,20 @@ logs:
 	$(COMPOSE) $@
 
 logf:
-	$(COMPOSE) logs --follow $(ENV)
+	$(COMPOSE) logs --follow || exit 0
 
 
 logs_flask:
 	$(COMPOSE) logs --follow flask
 
-open: up
-	@# Flask port
-	$(OPEN) http://localhost
-	$(OPEN) http://localhost/jupyter
+open: up open_web
 
-watch:
-	echo "TODO!"
+open_web:
+	$(OPEN) http://localhost
+
 
 exec:
-	$(COMPOSE) exec $(CMD)
+	@echo "Para ejecutar exec:\n\t \x24(make custom) exec servicio comando"
+
+watch_ps:
+	@watch "$(COMPOSE)" ps
