@@ -1,4 +1,4 @@
-# Docker IoT + Web
+# MQTT IoT Software Stack (Rabbit/nginx/flask)
 
 ![Esquema](./docs/diag.png)
 
